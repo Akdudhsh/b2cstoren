@@ -8,6 +8,8 @@
     <module>store-gateway</module>
     <module>store-commons</module>
       <module>store-front-user</module>
+      <module>store-static</module>
+      <module>store-front-carousel</module>
   </modules>
   <packaging>pom</packaging>
   <!-- 父工程不进行开发
