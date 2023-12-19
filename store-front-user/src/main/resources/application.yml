@@ -1,0 +1,32 @@
+spring:
+  # 连接池配置
+  datasource:
+    url: jdbc:mysql://192.168.68.129:3306/store_user?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+mybatis-plus:
+  #指定mapper文件的类路径
+  mapper-locations: classpath:mappers/*.xml
+  configuration:
+    #将实体类中的驼峰命名映射成数据库表的下划线线命名
+    map-underscore-to-camel-case: true
+    #全自动映射
+    auto-mapping-behavior: full
+    #开启懒加载
+    lazy-loading-enabled: true
+    #每个属性按需加载
+    aggressive-lazy-loading: false
+  #指定该包下所有实体类的类别名
+  type-aliases-package: org.example.pojo #设置别名
+ribbon:
+  eager-load:
+    enabled: true #开启饥饿加载提升第一次访问速度
+    clients:
+      - user-service #指定开启服务
+feign:
+  httpclient:
+    enabled: true  # 开启httpClient开关,启动连接池,提升feign连接效率!
+    max-connections: 200  #最大连接数量
+    max-connections-per-route: 50  #单路径最大连接数
