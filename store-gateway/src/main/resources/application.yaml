@@ -3,14 +3,10 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: user-service
-          uri: lb://user-service
+        - id: user-service  # 此名称随意定义
+          uri: lb://user-service #使用负载均衡,调用服务名,这是服务名
           predicates:
             - Path=/user/**  # 访问user路径转发用户服务
-        - id: product-service # 此名称随意定义
-          uri: lb://product-service #使用负载均衡,调用服务名,这是服务名
-          predicates:
-            - Path=/product/** # 访问product相关,转发到product服务
         - id: static-service
           uri: lb://static-service
           predicates:
@@ -19,3 +15,15 @@ spring:
           uri: lb://carousel-service
           predicates:
             - Path=/carousel/**
+        - id: product-service
+          uri: lb://product-service
+          predicates:
+            - Path=/product/**
+        - id: category-service
+          uri: lb://category-service
+          predicates:
+            - Path=/category/**
+        - id: search-service
+          uri: lb://search-service
+          predicates:
+            - Path=/search/**
