@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 
 /**
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Bean;
  */
 @SpringBootApplication
 @MapperScan("org.example.category.mapper")
+@EnableCaching
 public class CategoryApplication {
     public static void main(String[] args) {
         SpringApplication.run(CategoryApplication.class,args);

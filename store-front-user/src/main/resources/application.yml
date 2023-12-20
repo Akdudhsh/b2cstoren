@@ -6,6 +6,8 @@ spring:
     password: root
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
+  profiles:
+    active: cache
 mybatis-plus:
   #指定mapper文件的类路径
   mapper-locations: classpath:mappers/*.xml

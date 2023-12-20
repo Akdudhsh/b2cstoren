@@ -7,6 +7,8 @@ import org.example.pojo.Address;
 import org.example.user.mapper.AddressMapper;
 import org.example.user.service.AddressService;
 import org.example.utils.R;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 
 
@@ -29,6 +31,7 @@ public class AddressServiceImpl implements AddressService {
      * @return  001 + 地址集合 / 004
      */
     @Override
+    @Cacheable(value = "address",key = "#addressListParam.userId",cacheManager = "cacheManagerDay")
     public R list(AddressListParam addressListParam) {
         //根据用户id进行查询
         QueryWrapper<Address> queryWrapper = new QueryWrapper<>();

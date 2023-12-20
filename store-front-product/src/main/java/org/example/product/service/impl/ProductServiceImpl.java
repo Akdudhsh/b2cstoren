@@ -15,6 +15,7 @@ import org.example.product.mapper.ProductMapper;
 import org.example.product.service.ProductService;
 import org.example.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
@@ -46,6 +47,7 @@ public class ProductServiceImpl implements ProductService {
      * @return
      */
     @Override
+    @Cacheable(value = "list.product",key = "#categoryName")
     public R promo(String categoryName) {
 
         //调用类别服务返回商品id
@@ -70,6 +72,7 @@ public class ProductServiceImpl implements ProductService {
      * @return
      */
     @Override
+    @Cacheable(value = "list.product",key = "#categoryName")
     public R hots(List<String> categoryName) {
         ArrayList<Integer> idList = new ArrayList<>(categoryName.size());
         for (String s : categoryName) {
@@ -91,9 +94,10 @@ public class ProductServiceImpl implements ProductService {
         return R.ok("查询成功",list);
     }
 
-    /**
+    /** 查询所有类别的集合
      * @return
      */
+    @Cacheable(value = "list.category",key = "#root.methodName",cacheManager = "cacheManagerDay")
     @Override
     public R categoryList() {
         R r = categoryClient.list();
@@ -106,6 +110,12 @@ public class ProductServiceImpl implements ProductService {
      * @return
      */
     @Override
+    @Cacheable(
+            value = "list.product",
+            key = "#productByCategoryParam.categoryID" +
+                    "+'-'+#productByCategoryParam.currentPage" +
+                    "+'-'+#productByCategoryParam.pageSize"
+    )
     public R byCategory(ProductByCategoryParam productByCategoryParam) {
         LambdaQueryWrapper<Product> queryWrapper = new LambdaQueryWrapper<>();
         if(productByCategoryParam.getCategoryID().length != 0){
@@ -122,6 +132,11 @@ public class ProductServiceImpl implements ProductService {
      * @return
      */
     @Override
+    @Cacheable(
+            value = "list.product",
+            key = "#productByCategoryParam.currentPage" +
+                    "+'-'+#productByCategoryParam.pageSize"
+    )
     public R all(ProductByCategoryParam productByCategoryParam) {
         return byCategory(productByCategoryParam);
     }
@@ -130,6 +145,7 @@ public class ProductServiceImpl implements ProductService {
      * @param productID
      * @return
      */
+    @Cacheable(value = "product",key = "#productID")
     @Override
     public R detail(Integer productID) {
 
@@ -143,6 +159,7 @@ public class ProductServiceImpl implements ProductService {
      * @return
      */
     @Override
+    @Cacheable(value = "picture",key = "#productID",cacheManager = "cacheManagerDay")
     public R pictures(Integer productID) {
         LambdaQueryWrapper<Picture> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Picture::getProductId,productID);
@@ -151,7 +168,7 @@ public class ProductServiceImpl implements ProductService {
         return R.ok(list);
     }
 
-    /**
+    /** 查询所有商品数据，供es索引库的初始化
      * @return
      */
     @Override
@@ -160,7 +177,7 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.selectList(null);
     }
 
-    /**
+    /** 搜索商品
      * @param searchProductParam
      * @return
      */

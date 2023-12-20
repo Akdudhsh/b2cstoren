@@ -8,6 +8,7 @@ import org.example.carousel.mapper.CarouselMapper;
 import org.example.carousel.service.CarouselService;
 import org.example.pojo.Carousel;
 import org.example.utils.R;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,6 +30,7 @@ public class CarouselServiceImpl implements CarouselService {
      * @return
      */
     @Override
+    @Cacheable(value = "list.carousel",key = "#root.methodName",cacheManager = "cacheManagerDay")
     public R list() {
        LambdaQueryWrapper<Carousel> queryWrapper = new LambdaQueryWrapper<>();
        queryWrapper.orderByAsc(Carousel::getPriority);

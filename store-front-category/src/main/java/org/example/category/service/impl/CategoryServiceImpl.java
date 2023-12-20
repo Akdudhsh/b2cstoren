@@ -7,6 +7,7 @@ import org.example.category.mapper.CategoryMapper;
 import org.example.category.service.CategoryService;
 import org.example.pojo.Category;
 import org.example.utils.R;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -30,6 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @return
      */
     @Override
+    @Cacheable(value = "category",key = "#name")
     public R getIdByName(String name) {
         LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Category::getCategoryName,name);
@@ -46,6 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @return
      */
     @Override
+    @Cacheable(value = "list.category",key = "#root.methodName")
     public R list() {
         List<Category> list = categoryMapper.selectList(null);
         log.info("CategoryServiceImpl.list业务结束，结果:{}",list);

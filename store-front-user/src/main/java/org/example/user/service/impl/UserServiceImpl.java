@@ -11,6 +11,7 @@ import org.example.user.mapper.UserMapper;
 import org.example.user.service.UserService;
 import org.example.utils.MD5Util;
 import org.example.utils.R;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -32,6 +33,7 @@ public class UserServiceImpl implements UserService {
      * @param userCheckParam  封装用户名的实体 参数已校验
      * @return 001 004
      */
+    @Cacheable(value = "user",key = "#userCheckParam.userName")
     @Override
     public R check(UserCheckParam userCheckParam) {
         //查询结果
