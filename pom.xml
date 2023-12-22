@@ -13,6 +13,9 @@
       <module>store-front-product</module>
       <module>store-front-category</module>
       <module>store-search</module>
+      <module>store-front-collect</module>
+      <module>store-front-cart</module>
+      <module>store-front-order</module>
   </modules>
   <packaging>pom</packaging>
   <!-- 父工程不进行开发

@@ -2,6 +2,7 @@ package org.example.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.example.param.AddressAddParam;
 import org.example.param.AddressListParam;
 import org.example.pojo.Address;
 import org.example.user.mapper.AddressMapper;
@@ -43,11 +44,14 @@ public class AddressServiceImpl implements AddressService {
     }
 
     /** 添加地址，并且查询最新的地址
-     * @param address
+     * @param
      * @return
      */
     @Override
-    public R save(Address address) {
+    public R save(AddressAddParam addressAddParam) {
+        Address address = new Address(null, addressAddParam.getAdd().getLinkman(),
+                addressAddParam.getAdd().getPhone(), addressAddParam.getAdd().getAddress(),
+                addressAddParam.getUserId());
         int rows = addressMapper.insert(address);
         if(rows == 0){
             log.info("AddressServiceImpl.save业务结束，结果:{}","保存失败");

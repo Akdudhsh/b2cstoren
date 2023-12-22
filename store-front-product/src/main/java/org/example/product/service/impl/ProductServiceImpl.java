@@ -3,6 +3,7 @@ package org.example.product.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.example.clients.CategoryClient;
 import org.example.clients.SearchClient;
@@ -30,7 +31,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> implements ProductService {
 
 
     @Resource
@@ -185,5 +186,22 @@ public class ProductServiceImpl implements ProductService {
     public R search(SearchProductParam searchProductParam) {
         log.info("ProductServiceImpl.search业务结束");
         return searchClient.search(searchProductParam);
+    }
+
+    /** 提供给收藏模块根据id集合查询商品信息
+     * @param idList
+     * @return
+     */
+    @Cacheable(value = "list.product",key = "#idList")
+    @Override
+    public R byProductIds(List idList) {
+        if(CollectionUtils.isEmpty(idList)){
+            return R.ok("查询成功",null);
+        }
+        LambdaQueryWrapper<Product> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.in(Product::getProductId,idList);
+        List<Product> productList = productMapper.selectList(queryWrapper);
+        log.info("ProductServiceImpl.byProductIds业务结束");
+        return R.ok("查询成功",productList);
     }
 }

@@ -1,5 +1,6 @@
 package org.example.user.service;
 
+import org.example.param.AddressAddParam;
 import org.example.param.AddressListParam;
 import org.example.pojo.Address;
 import org.example.utils.R;
@@ -13,7 +14,7 @@ import org.example.utils.R;
 public interface AddressService {
     R list(AddressListParam userIdParam);
 
-    R save(Address address);
+    R save(AddressAddParam addressAddParam);
 
     R remove(Long id);
 }

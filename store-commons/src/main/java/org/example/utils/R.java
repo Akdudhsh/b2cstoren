@@ -33,6 +33,14 @@ public class R implements Serializable {
      */
     public static final String SUCCESS_CODE = "001";
     /**
+     * 购物车重复添加状态码
+     */
+    public static final String SUCCESS_CART_REPEAT_CODE = "002";
+    /**
+     * 购物车商品数量超出购买数量状态码
+     */
+    public static final String SUCCESS_CART_EXCEED_CODE = "003";
+    /**
      * 失败状态码
      */
     public static final String FAIL_CODE = "004";
@@ -49,7 +57,10 @@ public class R implements Serializable {
     private Object data;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long   total;
+    public static R ok(String code,String msg){
 
+        return new R(code,msg,null,null);
+    }
 
     /**
      * 成功
@@ -57,10 +68,12 @@ public class R implements Serializable {
      * @param data
      * @return
      */
+
     public static R ok(String msg,Object data,Long total){
 
         return new R(SUCCESS_CODE,msg,data,total);
     }
+
 
     /**
      * 成功
@@ -78,7 +91,7 @@ public class R implements Serializable {
      */
     public static R ok(String msg){
 
-        return ok(msg,null);
+        return ok(SUCCESS_CODE,msg);
     }
 
 

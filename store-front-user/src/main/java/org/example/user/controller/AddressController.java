@@ -1,5 +1,6 @@
 package org.example.user.controller;
 
+import org.example.param.AddressAddParam;
 import org.example.param.AddressListParam;
 import org.example.param.AddressRemoveParam;
 import org.example.pojo.Address;
@@ -42,16 +43,16 @@ public class AddressController {
 
     /**
      * 完成地址的添加
-     * @param address
+     * @param
      * @param result
      * @return
      */
     @PostMapping("/save")
-    public R list(@RequestBody @Validated Address address,BindingResult result){
+    public R list(@RequestBody @Validated AddressAddParam addressAddParam, BindingResult result){
         if(result.hasErrors()){
             return R.fail("传入参数不正确,保存失败");
         }
-        return addressService.save(address);
+        return addressService.save(addressAddParam);
     }
 
     /**

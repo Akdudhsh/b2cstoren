@@ -1,6 +1,9 @@
 package org.example.product.config;
 
 import org.example.config.CacheConfiguration;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -11,12 +14,12 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class ProductConfiguration extends CacheConfiguration {
-    /**
-     * 指定mq的序列化方式
-     * @return
-     */
-//    @Bean
-//    public MessageConverter messageConverter(){
-//        return new Jackson2JsonMessageConverter();
-//    }
+/**
+ * 指定mq的序列化方式
+ * @return
+ */
+    @Bean
+    public MessageConverter messageConverter(){
+        return new Jackson2JsonMessageConverter();
+    }
 }
